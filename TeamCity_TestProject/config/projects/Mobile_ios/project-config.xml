@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" parent-id="Mobile" uuid="83164406-8f17-11ec-b909-0242ac120002" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2020.1/project-config.xsd">
+  <name>iOS applications</name>
+  <parameters>
+    <param name="env.HOME" value="/Users/adminuser" />
+    <param name="env.LANG" value="en_US.UTF-8" />
+    <param name="env.LC_ALL" value="en_US.UTF-8" />
+  </parameters>
+  <cleanup />
+  <subprojectsOrder order="Mobile_ios_Release,Mobile_ios_Builds,Mobile_ios_Common" />
+</project>
+

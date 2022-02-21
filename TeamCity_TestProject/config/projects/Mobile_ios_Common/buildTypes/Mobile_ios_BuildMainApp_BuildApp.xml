@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="83484fd4-8f1a-11ec-b909-0242ac120002" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2020.1/project-config.xsd">
+  <name>Build Main App</name>
+  <description />
+  <settings>
+    <parameters>
+      <param name="env.GIT_TAG" value="%teamcity.build.branch%" />
+      <param name="template_authKeyID" value="" />
+      <param name="template_authKeyIssuerID" value="" />
+      <param name="template_authKeyPath" value="" />
+      <param name="template_scheme" value="" />
+      <param name="template_target" value="" />
+    </parameters>
+    <build-runners>
+      <runner id="RUNNER_1" name="Clean DerivedData directory" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="rm -rf ~/Library/Developer/Xcode/DerivedData" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_2" name="Archive" type="Xcode">
+        <parameters>
+          <param name="additionalCommandLineParameters"><![CDATA[-sdk iphoneos
+-allowProvisioningUpdates
+-configuration release
+-archivePath "../../build/Archive/MainApp.xcarchive"]]></param>
+          <param name="arch" value="default" />
+          <param name="buildActions" value="archive" />
+          <param name="configuration" value="###default###" />
+          <param name="customBuildOutputDir" value="build" />
+          <param name="platform" value="default" />
+          <param name="project" value="project/App.xcodeproj" />
+          <param name="scheme" value="MainApp" />
+          <param name="sdk" value="default" />
+          <param name="target" value="###default###" />
+          <param name="teamcity.build.workingDir" value="project" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="useCustomBuildOutputDir" value="true" />
+          <param name="xcode" value="4" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_3" name="Create ipa" type="simpleRunner">
+        <parameters>
+          <param name="script.content"><![CDATA[xcodebuild -project App.xcodeproj -target MainApp -configuration release -sdk iphoneos -exportArchive -allowProvisioningUpdates -archivePath %teamcity.build.checkoutDir%/build/Archive/MainApp.xcarchive -exportOptionsPlist "ExportOptions/exportOptions_main.plist" -exportPath %teamcity.build.checkoutDir%/build/IPA -authenticationKeyPath %template_authKeyPath% -authenticationKeyID %template_authKeyID% -authenticationKeyIssuerID %template_authKeyIssuerID%
+fi]]></param>
+          <param name="teamcity.build.workingDir" value="project" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="RUNNER_4" name="Publishing (TestFlight)" type="simpleRunner">
+        <parameters>
+          <param name="script.content"><![CDATA[echo "##teamcity[progressMessage 'Step 16. Testflight(.ipa)']"
+
+shopt -s nocasematch
+if [[ $GIT_TAG =~ ^(rc|release|testflight) || $GIT_TAG =~ (release|rc|testflight) ]]; then
+ echo "Отправляем релиз в Testflight"
+
+ xcarchiveFilePath="Archive/MainApp.xcarchive"
+ googleServiceFilePath="../project/Resources/GoogleService-Info.plist"
+ exportPath="$PWD/Release"
+ upload_sym_path=$(find ~/Library/Developer/Xcode/DerivedData/** -name upload-symbols)
+ 
+ xcrun altool --upload-app -f IPA/MainApp.ipa -t ios -u 'admin@account.com' -p 'password_for_admin_account'
+
+shopt -u nocasematch]]></param>
+          <param name="teamcity.build.workingDir" value="build" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="Mobile_ios_BuildIOSApp" />
+    </vcs-settings>
+    <build-triggers>
+      <build-trigger id="vcsTrigger" type="vcsTrigger">
+        <parameters>
+          <param name="branchFilter"><![CDATA[+:*
+-:<default>]]></param>
+          <param name="enableQueueOptimization" value="true" />
+          <param name="quietPeriodMode" value="DO_NOT_USE" />
+          <param name="triggerRules" value="+:**" />
+        </parameters>
+      </build-trigger>
+    </build-triggers>
+    <cleanup />
+  </settings>
+</build-type>
+

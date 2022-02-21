@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" parent-id="Mobile_ios" uuid="66c0e67e-8f19-11ec-b909-0242ac120002" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2020.1/project-config.xsd">
+  <name>Common</name>
+  <parameters>
+    <param name="env.BUILD_TYPE_ID" value="%system.teamcity.buildType.id%" />
+    <param name="env.TC_BUILD_ID" value="%teamcity.build.id%" />
+    <param name="env.UiTestsStatus" value="" />
+    <param name="env.UnitTestsStatus" value="" />
+    <param name="env.xctestrun_file_path" value="" />
+    <param name="template_app_identifier" value="" />
+    <param name="template_authKeyID" value="" />
+    <param name="template_authKeyIssuerID" value="" />
+    <param name="template_authKeyPath" value="" />
+    <param name="template_configuration" value="" />
+    <param name="template_export_options_path" value="" />
+    <param name="template_google_service_path" value="" />
+    <param name="template_ipa" value="" />
+    <param name="template_scheme" value="" />
+    <param name="template_target" value="" />
+    <param name="template_test_suite" value="" />
+  </parameters>
+  <cleanup />
+  <buildTypesOrder order="Mobile_ios_BuildMainApp_BuildApp,Mobile_ios_Common_BuildWLApp" />
+</project>
+

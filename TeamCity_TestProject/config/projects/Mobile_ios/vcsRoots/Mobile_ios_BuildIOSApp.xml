@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="3ca8c90c-8f18-11ec-b909-0242ac120002" type="jetbrains.git" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2020.1/project-config.xsd">
+  <name>Build iOS App</name>
+  <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
+  <param name="agentCleanPolicy" value="NEVER" />
+  <param name="authMethod" value="TEAMCITY_SSH_KEY" />
+  <param name="branch" value="refs/heads/master" />
+  <param name="ignoreKnownHosts" value="true" />
+  <param name="reportTagRevisions" value="true" />
+  <param name="secure:password" value="" />
+  <param name="submoduleCheckout" value="CHECKOUT" />
+  <param name="teamcity:branchSpec" value="+:refs/tags/*" />
+  <param name="teamcitySshKey" value="supersecretkey" />
+  <param name="url" value="git@github.com:jareksedy/Elseweather.git" />
+  <param name="useAlternates" value="true" />
+  <param name="username" value="teamcity" />
+  <param name="usernameStyle" value="USERID" />
+</vcs-root>
+
